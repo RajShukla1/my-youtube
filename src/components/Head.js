@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [show,setShow] = useState(false);
-
+  const [showSuggestions,setShowSuggestions] = useState(false);
+  const [Suggestions,setSuggestions] = useState(['iphone','Animal','World Affairs']);
+  const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -14,15 +16,20 @@ const Head = () => {
   const getSearchSuggestions = async ()=>{
     const data = (await fetch(YOUTUBE_SEARCH_API + searchQuery)).catch((e)=>searchQuery);
     const json = await data.json().catch((e)=>searchQuery);
-    console.log(json);
+    setSuggestions(json[1]);
+    dispatch(cacheResults({
+      [searchQuery]: json[1], 
+    }))
   }
   useEffect(()=>{
-    let timer;
-    if(searchQuery.length > 0){
-      setShow(true);
-      timer = setTimeout(()=>getSearchSuggestions().catch((e)=>console.log(e)),2000);
-    }else
-    setShow(false);
+     const timer = setTimeout(()=>{
+      if(searchCache[searchQuery]){ 
+        setSuggestions(searchCache[searchQuery]);
+      }else{
+          getSearchSuggestions().catch((e)=>console.log(e));
+      }
+},2000)
+    
     return ()=>{
       clearTimeout(timer);
     }
@@ -42,10 +49,11 @@ const Head = () => {
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/2560px-Logo_of_YouTube_%282015-2017%29.svg.png"
         />
       </div>
-      <div className="col-span-10 text-center px-10">
+      <div className="flex flex-col col-span-10 text-center px-10">
         <div>
         <input
-        onBlur={()=>setShow(false)}
+        onBlur={()=>setShowSuggestions(false)}
+        onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}
           className="w-1/2 border border-gray-500 p-2 rounded-l-full"
@@ -55,14 +63,11 @@ const Head = () => {
           search
         </button>
         </div>
-        { show &&
-        <div className="fixed bg-white w-[37rem]">
+        { showSuggestions &&
+        <div className="py-2 px-2 shadow-lg rounded-lg border border-gray-100 bg-white w-[37rem]">
           <ul>
-            <li>  Iphone</li>
-            <li>Iphone pro</li>
-            <li>Iphone 14</li>
-            <li>Iphone pro max</li>
-            <li>Iphone 14 pro max</li>
+            {Suggestions.map(s=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">{s}</li>)}
+            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">Iphone</li>
           </ul>
         </div>
 }
