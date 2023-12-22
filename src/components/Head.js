@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
-import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { USER_IMAGE, YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
@@ -74,9 +74,9 @@ const Head = () => {
       </div>
       <div className="col-span-1">
         <img
-          className="h-8"
+          className="h-16 rounded-full"
           alt="user-icon"
-          src="https://cdn-icons-png.flaticon.com/512/666/666201.png"
+          src={USER_IMAGE}
         />
       </div>
     </div>

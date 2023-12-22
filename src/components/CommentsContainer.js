@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { generateRandomImage } from '../utils/helper';
 
 const commentsData = [
     {
@@ -15,7 +16,7 @@ const commentsData = [
         ]
     },
     {
-        name:"Raj",
+        name:"Moe",
         text : "just looking like a wow",
         reply : [
             {
@@ -23,7 +24,7 @@ const commentsData = [
                 text : "lorem ipsum",
                 reply : [
                     {
-                        name:"Raj",
+                        name:"moe",
                         text : "lorem ipsum",
                         reply : [
                 
@@ -34,7 +35,7 @@ const commentsData = [
         ]
     },
     {
-        name:"Raj",
+        name:"panda",
         text : "lorem ipsum",
         reply : [
             {
@@ -45,7 +46,7 @@ const commentsData = [
                 ]
             },
             {
-                name:"Raj",
+                name:"neasr",
                 text : "lorem ipsum",
                 reply : [
                     {
@@ -64,7 +65,7 @@ const commentsData = [
 const Comment = ({ data }) =>{
     const {name, text, reply} = data;   
     return <div className='flex my-2 shadow-sm bg-gray-100 p-2 rounded-lg' >
-        <img className='w-12 h-12' src='https://cdn-icons-png.flaticon.com/512/666/666201.png' alt = 'user'/>
+        <img className='w-10 h-10 rounded-full' src={generateRandomImage()} alt = 'user'/>
         <div className='px-3'>
             <p className='font-bold'>{name}</p>
             <p>{text}</p>
@@ -73,12 +74,20 @@ const Comment = ({ data }) =>{
 }
 
 const CommentsList = ({comments})=>{
+    const [show, setShow] = useState(false);
     return comments.map((comment,i)=>(
      <div key={i}>   
     <Comment data = {comment}/>
+    {
+     !show ?
+    <button onClick={()=>setShow(true)}>Show</button>:
+    <>
+    <button onClick={()=>setShow(false)}>Hide</button>
     <div className='pl-5 border border-l-black ml-5'>
         <CommentsList comments={comment?.reply} />
     </div>
+    </>
+}
     </div>
     ))
 }
