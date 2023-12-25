@@ -35,8 +35,8 @@ const Head = () => {
     }
   },[searchQuery])
   return (
-    <div className="grid grid-flow-col p-5 m-2 shadow-lg">
-      <div className="flex col-span-1">
+    <div className="flex justify-between p-5 m-2 shadow-lg">
+      <div className="flex col-span-2">
         <img
           className="h-8 cursor-pointer"
           onClick={() => toggleMenuHandler()}
@@ -49,18 +49,18 @@ const Head = () => {
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Logo_of_YouTube_%282015-2017%29.svg/2560px-Logo_of_YouTube_%282015-2017%29.svg.png"
         />
       </div>
-      <div className="flex flex-col col-span-10 text-center px-10">
+      <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
         <div>
         <input
         onBlur={()=>setShowSuggestions(false)}
         onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}
-          className="w-1/2 border border-gray-500 p-2 rounded-l-full"
+          className="w-2/3 border border-gray-500 p-2 rounded-l-full"
           type="text"
         />
-        <button className="border border-gray-500 p-2 rounded-r-full">
-          search
+        <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
+          🔍
         </button>
         </div>
         { showSuggestions &&
@@ -72,9 +72,9 @@ const Head = () => {
         </div>
 }
       </div>
-      <div className="col-span-1">
+      <div className="col-span-4">
         <img
-          className="h-16 rounded-full"
+          className="h-12 rounded-full cursor-pointer"
           alt="user-icon"
           src={USER_IMAGE}
         />

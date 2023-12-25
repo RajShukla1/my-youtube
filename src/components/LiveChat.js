@@ -26,7 +26,7 @@ useEffect(()=>{
 
   return (
     <>
-    <div className='w-full overflow-y-scroll h-[600px] ml-2 p-2 border bg-slate-100 rounded-lg flex flex-col'>
+    <div className='w-full overflow-y-scroll sm:h-[600px] h-[300px] ml-2 p-2 border bg-slate-100 rounded-lg flex flex-col'>
         {
             chatMessages.map((c,i) => (
                 <ChatMessage key={i} name={c?.name} message={c?.message} image={c?.image}/>
