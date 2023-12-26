@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
-import { generateRandomImage } from '../utils/helper';
-
+import { USER_IMAGE } from '../utils/constants';
+import { images } from '../utils/helper';
+import Comment from './Comment';
 const commentsData = [
     {
         name:"Raj",
         text : "what a nice video",
+        image: USER_IMAGE,
         reply : [
             {
                 name:"Shiv",
                 text : "No this is just an average video ever",
+                image: images[0],
                 reply : [
         
                 ]
@@ -18,14 +20,17 @@ const commentsData = [
     {
         name:"Moe",
         text : "just looking like a wow",
+        image: images[1],
         reply : [
             {
                 name:"Raj",
                 text : "lorem ipsum",
+                image: USER_IMAGE,
                 reply : [
                     {
                         name:"moe",
                         text : "lorem ipsum",
+                        image: images[1],
                         reply : [
                 
                         ]
@@ -37,10 +42,12 @@ const commentsData = [
     {
         name:"panda",
         text : "lorem ipsum",
+        image: images[2],
         reply : [
             {
                 name:"Raj",
                 text : "lorem ipsum",
+                image: USER_IMAGE,
                 reply : [
         
                 ]
@@ -48,10 +55,12 @@ const commentsData = [
             {
                 name:"neasr",
                 text : "lorem ipsum",
+                image: images[3],
                 reply : [
                     {
                         name:"Raj",
                         text : "lorem ipsum",
+                        image: USER_IMAGE,
                         reply : [
                 
                         ]
@@ -62,32 +71,10 @@ const commentsData = [
     }
 ]
 
-const Comment = ({ data }) =>{
-    const {name, text, reply} = data;   
-    return <div className='flex my-2 shadow-sm bg-gray-100 p-2 rounded-lg' >
-        <img className='w-10 h-10 rounded-full' src={generateRandomImage()} alt = 'user'/>
-        <div className='px-3'>
-            <p className='font-bold'>{name}</p>
-            <p>{text}</p>
-        </div>
-    </div>;
-}
-
-const CommentsList = ({comments})=>{
-    const [show, setShow] = useState(false);
+export const CommentsList = ({comments})=>{
     return comments.map((comment,i)=>(
      <div key={i}>   
     <Comment data = {comment}/>
-    {
-     !show ?
-    <button onClick={()=>setShow(true)}>Show</button>:
-    <>
-    <button onClick={()=>setShow(false)}>Hide</button>
-    <div className='pl-5 border border-l-black ml-5'>
-        <CommentsList comments={comment?.reply} />
-    </div>
-    </>
-}
     </div>
     ))
 }

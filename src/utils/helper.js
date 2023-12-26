@@ -22,7 +22,7 @@ var nameList = [
     'Slash','Melt','Melted','Melting','Fell','Wolf','Hound',
     'Legacy','Sharp','Dead','Mew','Chuckle','Bubba','Bubble','Sandwich','Smasher','Extreme','Multi','Universe','Ultimate','Death','Ready','Monkey','Elevator','Wrench','Grease','Head','Theme','Grand','Cool','Kid','Boy','Girl','Vortex','Paradox'
 ];
-let images = [
+export let images = [
   'https://yt3.ggpht.com/ytc/AIf8zZS82Tq0Id4OwFSc_Oko0ZHQOXKktPGx6qJScLfbhg=s68-c-k-c0x00ffffff-no-rj',
   'https://yt3.ggpht.com/ytc/AIf8zZRr-XxwSuOW9kwN9wXTxhmT-I3A1dhcYKmiBz4h9g=s68-c-k-c0x00ffffff-no-rj',
   'https://cdn.discordapp.com/guilds/816803002349781032/users/1155934125669240853/avatars/63fd78032511a702d989027c29c856ca.webp?size=160',
@@ -49,8 +49,9 @@ let messages = [
   'is like an ATM, open 24/7',
   'is like a championship ring, everybody puts a finger in her'
 ]
-export function generateRandomName() {
-   return nameList[Math.floor( Math.random() * nameList.length )];
+export function generateRandomNameImage() {
+  let idx = Math.floor( Math.random() * nameList.length );
+   return [nameList[idx], images[idx%images.length]];
 };
 
 export function generateRandomImage(){

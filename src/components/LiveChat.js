@@ -3,7 +3,7 @@ import ChatMessage from './ChatMessage'
 import { useDispatch, useSelector } from 'react-redux'
 import { addMessage } from '../utils/chatSlice';
 import store from '../utils/store';
-import { generateRandomImage, generateRandomMessage, generateRandomName, makeRandomMessage } from '../utils/helper';
+import { generateRandomMessage, generateRandomNameImage} from '../utils/helper';
 import { USER_IMAGE } from '../utils/constants';
 
 
@@ -15,9 +15,9 @@ useEffect(()=>{
     const i = setInterval(()=>{
 //Api polling
         dispatch(addMessage({
-            name: generateRandomName(),
+            name: generateRandomNameImage()[0],
             message: generateRandomMessage(),
-            image: generateRandomImage(),
+            image: generateRandomNameImage()[1],
         }))
     },1000)
 
