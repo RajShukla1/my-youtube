@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { closeMenu } from '../utils/appSlice';
 import { useParams, useSearchParams } from 'react-router-dom';
 import CommentsContainer from './CommentsContainer';
+import VideoContainer from './VideoContainer';
 import LiveChat from './LiveChat';
 
 const WatchPage = () => {
@@ -22,6 +23,7 @@ const WatchPage = () => {
     </div>
     </div>
     <CommentsContainer/>
+    <VideoContainer/>
     </div>
     </>
   )
