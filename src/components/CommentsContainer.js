@@ -81,7 +81,7 @@ export const CommentsList = ({comments})=>{
 
 const CommentsContainer = () => {
   return (
-    <div className='sm:m-5 w-full sm:w-2/3 shadow-sm bg-gray-100 mt-5 sm:px-5 rounded-lg'>
+    <div className='sm:m-5 w-full sm:w-[850px] shadow-sm bg-gray-100 mt-5 sm:px-5 rounded-lg'>
         <h1 className='text-2xl font-bold'>Comments: </h1>
         <CommentsList comments={commentsData}/>
     </div>

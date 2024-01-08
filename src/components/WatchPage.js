@@ -16,9 +16,9 @@ const WatchPage = () => {
   return (
     <>
     <div className='flex flex-col w-full items-center sm:items-baseline'>
-    <div className='sm:px-5 flex flex-col sm:flex-row w-full'>
-        <iframe className='w-full sm:aspect-video h-[300px] sm:h-full sticky top-4' src={"https://www.youtube.com/embed/"+ searchParams.get('v')+"?&autoplay=1"} title="YouTube video player" frameBorder="0" allow="accelerometer; clipboard-write;autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-    <div className='w-full'>
+    <div className='flex flex-col sm:flex-row w-full'>
+        <iframe className='w-full sm:w-[850px] h-[300px] sm:h-[500px] sticky top-4' src={"https://www.youtube.com/embed/"+ searchParams.get('v')+"?&autoplay=1"} title="YouTube video player" frameBorder="0" allow="accelerometer; clipboard-write;autoplay; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+    <div className='w-full sm:w-96 sm:h-[500px]'>
       <LiveChat/>
     </div>
     </div>
