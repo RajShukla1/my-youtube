@@ -7,28 +7,29 @@ import { cacheResults } from "../utils/searchSlice";
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions,setShowSuggestions] = useState(false);
-  const [Suggestions,setSuggestions] = useState(['iphone','Animal','World Affairs']);
+  const [Suggestions,setSuggestions] = useState([]);
   const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
   const getSearchSuggestions = async ()=>{
-    const data = (await fetch(YOUTUBE_SEARCH_API + searchQuery)).catch((e)=>searchQuery);
-    const json = await data.json().catch((e)=>searchQuery);
+    const data = (await fetch(YOUTUBE_SEARCH_API + searchQuery));
+    const json = await data.json()
     setSuggestions(json[1]);
+    console.log([...json[1]]);
     dispatch(cacheResults({
       [searchQuery]: json[1], 
     }))
   }
   useEffect(()=>{
      const timer = setTimeout(()=>{
-      if(searchCache[searchQuery]){ 
-        setSuggestions(searchCache[searchQuery]);
-      }else{
-          getSearchSuggestions().catch((e)=>console.log(e));
-      }
-},2000)
+      // if(searchCache[searchQuery]){ 
+      //   setSuggestions(searchCache[searchQuery]);
+      // }else{
+          getSearchSuggestions()
+      // }
+},600)
     
     return ()=>{
       clearTimeout(timer);
@@ -52,11 +53,12 @@ const Head = () => {
       <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
         <div>
         <input
-        onBlur={()=>setShowSuggestions(false)}
+        placeholder="Search"
+        // onBlur={()=>setShowSuggestions(false)}
         onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}
-          className="w-2/3 border border-gray-500 p-2 rounded-l-full"
+          className="z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
           type="text"
         />
         <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
@@ -64,10 +66,9 @@ const Head = () => {
         </button>
         </div>
         { showSuggestions &&
-        <div className="py-2 px-2 shadow-lg rounded-lg border border-gray-100 bg-white w-[37rem]">
+        <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
-            {Suggestions.map(s=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">{s}</li>)}
-            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">Iphone</li>
+            {Suggestions.map((s,i)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li>)}
           </ul>
         </div>
 }
