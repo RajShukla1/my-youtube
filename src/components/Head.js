@@ -54,7 +54,7 @@ const Head = () => {
         <div>
         <input
         placeholder="Search"
-        // onBlur={()=>setShowSuggestions(false)}
+        onBlur={()=>setShowSuggestions(false)}
         onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}

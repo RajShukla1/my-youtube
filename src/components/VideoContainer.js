@@ -6,16 +6,32 @@ import Shimmer from './Shimmer';
 
 const VideoContainer = () => {
   const [videos,setVideos] = useState([]);
+  const [nextPageToken, setnextPageToken] = useState("");
 
   useEffect(()=>{
     getVideos();
   },[]);
 
+  useEffect(() => {
+    window.addEventListener('scroll',infiniteScroll,true);
+    return () => {
+      window.removeEventListener('scroll',infiniteScroll,true);
+    }
+  },[nextPageToken]);
+
+  const infiniteScroll = () => {
+    if(window.innerHeight + Math.round(document.documentElement.scrollTop) >= document.documentElement.offsetHeight - 300){
+      getVideos();
+    }
+  }
+
   const getVideos = async ()=>{
     try{
-    const data = await fetch(YOUTUBE_VIDEOS_API);
+      const url = nextPageToken === '' ? YOUTUBE_VIDEOS_API : `${YOUTUBE_VIDEOS_API}&pageToken=${nextPageToken}`;
+    const data = await fetch(url);
     const json = await data.json();
-    setVideos(json.items)
+    setnextPageToken(json?.nextPageToken)
+    setVideos([...videos,...json.items])
     }
     catch(e){
       console.log(e)
