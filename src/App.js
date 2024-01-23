@@ -7,10 +7,14 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
 import ErrorPage from "./components/ErrorPage";
+import SearchPage from "./components/SearchPage";
 function App() {
   const appRouter = createBrowserRouter([{
     path:"/",
-    element:<Body/>,
+    element:(<div>
+      <Head/>
+      <Body/>
+      </div>),
     errorElement:<ErrorPage/>,
     children:[{
       path : "/",
@@ -18,14 +22,14 @@ function App() {
   },{
     path : "watch",
     element : <WatchPage/>
+  },{
+    path : "search/:query",
+    element : <SearchPage/>
   }]
   }]);
   return (
     <Provider store={store}>
-    <div >
-      <Head/>
       <RouterProvider router={appRouter}/>
-    </div>
     </Provider>
   );
 }

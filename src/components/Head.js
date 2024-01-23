@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { USER_IMAGE, YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
+import { Link } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,12 +25,8 @@ const Head = () => {
   }
   useEffect(()=>{
      const timer = setTimeout(()=>{
-      // if(searchCache[searchQuery]){ 
-      //   setSuggestions(searchCache[searchQuery]);
-      // }else{
-          getSearchSuggestions()
-      // }
-},600)
+        getSearchSuggestions()
+      },600)
     
     return ()=>{
       clearTimeout(timer);
@@ -51,8 +48,11 @@ const Head = () => {
         />
       </div>
       <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
-        <div>
-        <input
+        <form onSubmit={(e)=>{
+          console.log(e);
+          e.preventDefault();
+          }}>
+        <input  name="search"
         placeholder="Search"
         onBlur={()=>setShowSuggestions(false)}
         onFocus={()=>setShowSuggestions(true)}
@@ -61,10 +61,11 @@ const Head = () => {
           className="z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
           type="text"
         />
+        <Link to={"/search/"+searchQuery}>
         <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
           🔍
-        </button>
-        </div>
+        </button></Link>
+        </form>
         { showSuggestions &&
         <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>

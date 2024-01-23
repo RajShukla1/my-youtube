@@ -9,7 +9,7 @@ const VideoCard = ({info}) => {
         <ul>
             <li className="font-bold my-2">{title}</li>
             <li>{channelTitle}</li>
-            <li>{Math.round(statistics?.viewCount/(10**6))}M views</li>
+            <li>{Math?.round(statistics?.viewCount/(10**6))}M views</li>
         </ul>
     </div>
   )
