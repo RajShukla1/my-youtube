@@ -1,16 +1,17 @@
-import { USER_IMAGE } from '../utils/constants';
+import { useEffect, useState } from 'react';
+import { USER_IMAGE, YOUTUBE_COMMENTS_API } from '../utils/constants';
 import { images } from '../utils/helper';
 import Comment from './Comment';
 const commentsData = [
     {
-        name:"Raj",
-        text : "what a nice video",
-        image: USER_IMAGE,
+        authorDisplayName:"Raj",
+        textOriginal : "what a nice video",
+        authorProfileImageUrl: USER_IMAGE,
         reply : [
             {
-                name:"Shiv",
-                text : "No this is just an average video ever",
-                image: images[0],
+                authorDisplayName:"Shiv",
+                textOriginal : "No this is just an average video ever",
+                authorProfileImageUrl: images[0],
                 reply : [
         
                 ]
@@ -18,19 +19,19 @@ const commentsData = [
         ]
     },
     {
-        name:"Moe",
-        text : "just looking like a wow",
-        image: images[1],
+        authorDisplayName:"Moe",
+        textOriginal : "just looking like a wow",
+        authorProfileImageUrl: images[1],
         reply : [
             {
-                name:"Raj",
-                text : "lorem ipsum",
-                image: USER_IMAGE,
+                authorDisplayName:"Raj",
+                textOriginal : "lorem ipsum",
+                authorProfileImageUrl: USER_IMAGE,
                 reply : [
                     {
-                        name:"moe",
-                        text : "lorem ipsum",
-                        image: images[1],
+                        authorDisplayName:"moe",
+                        textOriginal : "lorem ipsum",
+                        authorProfileImageUrl: images[1],
                         reply : [
                 
                         ]
@@ -40,27 +41,27 @@ const commentsData = [
         ]
     },
     {
-        name:"panda",
-        text : "lorem ipsum",
-        image: images[2],
+        authorDisplayName:"panda",
+        textOriginal : "lorem ipsum",
+        authorProfileImageUrl: images[2],
         reply : [
             {
-                name:"Raj",
-                text : "lorem ipsum",
-                image: USER_IMAGE,
+                authorDisplayName:"Raj",
+                textOriginal : "lorem ipsum",
+                authorProfileImageUrl: USER_IMAGE,
                 reply : [
         
                 ]
             },
             {
-                name:"neasr",
-                text : "lorem ipsum",
-                image: images[3],
+                authorDisplayName:"neasr",
+                textOriginal : "lorem ipsum",
+                authorProfileImageUrl: images[3],
                 reply : [
                     {
-                        name:"Raj",
-                        text : "lorem ipsum",
-                        image: USER_IMAGE,
+                        authorDisplayName:"Raj",
+                        textOriginal : "lorem ipsum",
+                        authorProfileImageUrl: USER_IMAGE,
                         reply : [
                 
                         ]
@@ -71,19 +72,27 @@ const commentsData = [
     }
 ]
 
-export const CommentsList = ({comments})=>{
-    return comments.map((comment,i)=>(
-     <div key={i}>   
-    <Comment data = {comment}/>
-    </div>
-    ))
+export const CommentsList = ({comment, id})=>{
+    const [comments, setComments] = useState([]);
+    const getComments = async ()=>{
+        const data = await fetch(YOUTUBE_COMMENTS_API+id);
+        const json = await data.json();
+        console.log(json?.items);
+        setComments(json?.items);
+    }
+    useEffect(()=>{
+        getComments();
+    },[])
+    return <>
+    {comments.map((comment)=><Comment reply={comment?.snippet?.totalReplyCount > 0 ? comment?.replies?.comments:[]} data = {comment?.snippet?.topLevelComment?.snippet}/>)}
+    </>
 }
 
-const CommentsContainer = () => {
+const CommentsContainer = ({id}) => {
   return (
-    <div className='sm:m-5 w-full sm:w-[850px] shadow-sm bg-gray-100 mt-5 sm:px-5 rounded-lg'>
+    <div className='sm:m-5 w-full sm:w-[850px] shadow-sm  mt-5 sm:px-5 rounded-lg'>
         <h1 className='text-2xl font-bold'>Comments: </h1>
-        <CommentsList comments={commentsData}/>
+        <CommentsList comment={commentsData} id={id}/>
     </div>
   )
 }

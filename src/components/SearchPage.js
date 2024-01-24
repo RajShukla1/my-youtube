@@ -12,8 +12,8 @@ const SearchPage = () => {
         console.log(query);
     },[location])
     const getVideos = async ()=>{
-        let data = await fetch(YOUTUBE_SEARCH_VIDEOS_API+query);
-        let json = await data.json();
+        const data = await fetch(YOUTUBE_SEARCH_VIDEOS_API+query);
+        const json = await data.json();
         console.log(json?.items);
         setVideos(json?.items)
     }

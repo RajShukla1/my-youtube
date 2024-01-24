@@ -49,7 +49,6 @@ const Head = () => {
       </div>
       <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
         <form onSubmit={(e)=>{
-          console.log(e);
           e.preventDefault();
           }}>
         <input  name="search"
@@ -61,7 +60,7 @@ const Head = () => {
           className="z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
           type="text"
         />
-        <Link to={"/search/"+searchQuery}>
+        <Link to={"/search/"+searchQuery} onClick={()=>setSearchQuery('')}>
         <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
           🔍
         </button></Link>

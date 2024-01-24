@@ -22,7 +22,7 @@ const WatchPage = () => {
       <LiveChat/>
     </div>
     </div>
-    <CommentsContainer/>
+    <CommentsContainer id={searchParams.get('v')}/>
     <VideoContainer/>
     </div>
     </>
