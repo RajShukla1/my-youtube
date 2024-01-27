@@ -21,6 +21,7 @@ const WatchPage = () => {
     <div className='w-full sm:w-96 sm:h-[500px]'>
       <LiveChat/>
     </div>
+    
     </div>
     <CommentsContainer id={searchParams.get('v')}/>
     <VideoContainer/>

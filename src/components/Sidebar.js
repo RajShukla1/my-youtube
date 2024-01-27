@@ -8,15 +8,15 @@ const Sidebar = () => {
     <div className='hidden sm:block p-5 shadow-lg w-48'>
         <ul>
             <Link to={"/"}><li>Home</li></Link>
-            <li>Shorts</li>
-            <li>Videos</li>
-            <li>Live</li>
+            <Link to={"/search/"}><li>Shorts</li></Link>
+            <Link to={"/search/video"}><li>Videos</li></Link>
+            <Link to={"/search/live"}><li>Live</li></Link>
         </ul>
         {!isMenuOpen ? null :
         <>
         <h1 className='font-bold pt-5'>Subscriptions</h1>
         <ul>
-            <li>Music</li>
+        <Link to={"/search/&videoCategoryId=10"}><li>Music</li></Link>
             <li>Sports</li>
             <li>Gaming</li>
             <li>Movies</li>

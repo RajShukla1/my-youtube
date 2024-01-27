@@ -30,7 +30,6 @@ const VideoContainer = () => {
       const url = nextPageToken === '' ? YOUTUBE_VIDEOS_API : `${YOUTUBE_VIDEOS_API}&pageToken=${nextPageToken}`;
     const data = await fetch(url);
     const json = await data.json();
-    console.log(json);
     setnextPageToken(json?.nextPageToken)
     setVideos([...videos,...json?.items])
     }

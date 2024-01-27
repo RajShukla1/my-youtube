@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from './Button'
+import { YOUTUBE_VIDEO_CATEGORY } from '../utils/constants';
+import { Link } from 'react-router-dom';
 
-const List = ["All","Gaming","Cricket","Live","News","Songs","Podcasts","Comedy","Horror","Education","Geopolitics","Movies","Action","Drama","Cooking","Vlogs","Lucknow","Travel","Romance"];
 const ButtonList = () => {
+  const [List, setList] = useState();
+  const getList = async ()=>{
+    const data = await fetch(YOUTUBE_VIDEO_CATEGORY);
+    const json = await data.json();
+    console.log(json?.items);
+    console.log(json);
+    setList(json?.items)
+  }
+  useEffect(()=>{
+    getList();
+  },[])
   return (
     <div className='btnlist flex overflow-x-auto'>
-      {List.map((e,i) =>{
-        return <Button name={e} key={i}/>
+      <Link to="/"><button className='m-2 p-2 b rounded-lg hover bg-gray-200 w-max'>All</button></Link>
+      {List?.map((e) =>{
+        return <Button name={e?.snippet?.title} id={e?.id} key={e?.id}/>
       })
       }
     </div>
