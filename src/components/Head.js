@@ -18,7 +18,6 @@ const Head = () => {
     const data = (await fetch(YOUTUBE_SEARCH_API + searchQuery));
     const json = await data.json()
     setSuggestions(json[1]);
-    console.log([...json[1]]);
     dispatch(cacheResults({
       [searchQuery]: json[1], 
     }))
@@ -50,6 +49,7 @@ const Head = () => {
       <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
         <form onSubmit={(e)=>{
           e.preventDefault();
+          if(searchQuery === '') return false;
           }}>
         <input  name="search"
         placeholder="Search"
@@ -60,17 +60,17 @@ const Head = () => {
           className="z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
           type="text"
         />
-        <Link to={"/search/"+searchQuery} onClick={()=>setSearchQuery('')}>
+        <Link to={"/search/"+searchQuery} onClick={(e)=> searchQuery === '' ? e.preventDefault() : setSearchQuery('')}>
         <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
           🔍
         </button></Link>
         </form>
-        { showSuggestions &&
+        { (showSuggestions && Suggestions.length > 0) ??
         <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
             {Suggestions.map((s,i)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li>)}
           </ul>
-        </div>
+        </div> 
 }
       </div>
       <div className="col-span-4">
