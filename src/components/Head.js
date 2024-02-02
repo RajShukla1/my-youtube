@@ -68,7 +68,7 @@ const Head = () => {
         { showSuggestions && Suggestions.length > 0 &&
         <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
-            {Suggestions.map((s,i)=><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li>)}
+            {Suggestions.map((s,i)=><Link to={"/search/"+s}><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li></Link>)}
           </ul>
         </div> 
 }

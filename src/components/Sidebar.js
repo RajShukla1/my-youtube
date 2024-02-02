@@ -8,7 +8,7 @@ const Sidebar = () => {
     <div className='hidden sm:block p-5 shadow-lg w-48'>
         <ul>
             <Link to={"/"}><li>Home</li></Link>
-            <Link to={"/search/"}><li>Shorts</li></Link>
+            <Link to={"/search/shorts"}><li>Shorts</li></Link>
             <Link to={"/search/video"}><li>Videos</li></Link>
             <Link to={"/search/live"}><li>Live</li></Link>
         </ul>
