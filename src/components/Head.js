@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { USER_IMAGE, YOUTUBE_SEARCH_API } from "../utils/constants";
@@ -9,6 +9,8 @@ const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions,setShowSuggestions] = useState(false);
   const [Suggestions,setSuggestions] = useState([]);
+  const inputElement = useRef();
+  const showMe = useRef(false);
   const searchCache = useSelector((store) => store.search);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
@@ -53,11 +55,12 @@ const Head = () => {
           }}>
         <input  name="search"
         placeholder="Search"
-        onBlur={()=>setShowSuggestions(false)}
+        ref={inputElement}
+        onBlur={()=> {!showMe.current && setShowSuggestions(false)}}
         onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}
-          className="z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
+          className="hidden md:inline-block z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
           type="text"
         />
         <Link to={"/search/"+searchQuery} onClick={(e)=> searchQuery === '' ? e.preventDefault() : setSearchQuery('')}>
@@ -68,14 +71,14 @@ const Head = () => {
         { showSuggestions && Suggestions.length > 0 &&
         <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
-            {Suggestions.map((s,i)=><Link to={"/search/"+s}><li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li></Link>)}
+            {Suggestions.map((s,i)=><Link key={s} onMouseOver={()=>showMe.current = true} to={"/search/"+s} onClick={()=>setSearchQuery('')}><li className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li></Link>)}
           </ul>
         </div> 
 }
       </div>
       <div className="col-span-4">
         <img
-          className="h-12 rounded-full cursor-pointer"
+          className="h-8 w-12 sm:h-12 rounded-full cursor-pointer"
           alt="user-icon"
           src={USER_IMAGE}
         />
