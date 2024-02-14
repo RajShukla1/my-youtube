@@ -60,11 +60,11 @@ const Head = () => {
         onFocus={()=>setShowSuggestions(true)}
         value = {searchQuery}
         onChange={(e)=>setSearchQuery(e.target.value)}
-          className="hidden md:inline-block z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full"
+          className="md:inline-block z-11 w-2/3 border border-gray-500 p-2 px-4 rounded-l-full md:rounded-r-none rounded-r-full"
           type="text"
         />
         <Link to={"/search/"+searchQuery} onClick={(e)=> searchQuery === '' ? e.preventDefault() : setSearchQuery('')}>
-        <button className="border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
+        <button className="hidden md:inline-block border w-1/3 sm:w-fit border-gray-500 p-2 rounded-r-full">
           🔍
         </button></Link>
         </form>
