@@ -49,7 +49,7 @@ const Head = () => {
         />
       </div>
       <div className="flex w-full sm:w-1/2 flex-col col-span-6 text-center px-10">
-        <form onSubmit={(e)=>{
+        <form className="mx-auto" onSubmit={(e)=>{
           e.preventDefault();
           if(searchQuery === '') return false;
           }}>
@@ -69,7 +69,7 @@ const Head = () => {
         </button></Link>
         </form>
         { showSuggestions && Suggestions.length > 0 &&
-        <div className="z-10 inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
+        <div className="z-10 mx-auto inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
             {Suggestions.map((s,i)=><Link key={s} onMouseOver={()=>showMe.current = true} to={"/search/"+s} onClick={()=>setSearchQuery('')}><li className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 {s}</li></Link>)}
           </ul>
