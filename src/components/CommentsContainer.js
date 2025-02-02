@@ -84,7 +84,7 @@ export const CommentsList = ({comment, id})=>{
         getComments();
     },[])
     return <>
-    {comments?.map((comment)=><Comment reply={comment?.snippet?.totalReplyCount > 0 ? comment?.replies?.comments:[]} data = {comment?.snippet?.topLevelComment?.snippet}/>)}
+    {comments?.map((comment, key)=><Comment key={key} reply={comment?.snippet?.totalReplyCount > 0 ? comment?.replies?.comments:[]} data = {comment?.snippet?.topLevelComment?.snippet}/>)}
     </>
 }
 

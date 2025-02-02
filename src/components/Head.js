@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showSuggestions,setShowSuggestions] = useState(false);
-  const [Suggestions,setSuggestions] = useState([]);
+  const [Suggestions,setSuggestions] = useState(['h']);
   const inputElement = useRef();
   const showMe = useRef(false);
   const searchCache = useSelector((store) => store.search);
@@ -16,14 +16,45 @@ const Head = () => {
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
-  const getSearchSuggestions = async ()=>{
-    const data = (await fetch(YOUTUBE_SEARCH_API + searchQuery));
-    const json = await data.json()
-    setSuggestions(json[1]);
-    dispatch(cacheResults({
-      [searchQuery]: json[1], 
-    }))
-  }
+  const getSearchSuggestions = async () => {
+    try {
+        const response = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+
+        // Check if the response is OK (status code 200)
+        if (!response.ok) {
+            throw new Error(`API Error: ${response.status} ${response.statusText}`);
+        }
+
+        // Get text response
+        const txt = await response.text();
+
+        // Extract JSON-like array from function call
+        const match = txt.match(/\[(.*)\]/s);
+        if (!match) throw new Error("Invalid API response format");
+
+        const jsonString = match[0];
+        const parsedArray = JSON.parse(jsonString);
+
+        // Convert the array into structured JSON format
+        const result = {
+            query: parsedArray[0], // Search query
+            suggestions: parsedArray[1]?.map(item => item[0]) || [], // Handle missing suggestions
+            meta: parsedArray[2] || {} // Handle missing metadata
+        };
+
+        // Update state and cache
+        setSuggestions(result.suggestions);
+        dispatch(cacheResults({
+            [searchQuery]: result.suggestions, 
+        }));
+    } catch (error) {
+        console.error("Failed to fetch search suggestions:", error);
+
+        // Handle failure by showing a default message
+        setSuggestions(["Sorry can't suggest now"]);
+    }
+};
+
   useEffect(()=>{
      const timer = setTimeout(()=>{
         getSearchSuggestions()
@@ -70,12 +101,12 @@ const Head = () => {
 </svg>
         </button></Link>
         </form>
-        { showSuggestions && Suggestions.length > 0 &&
+        { showSuggestions && Suggestions?.length > 0 &&
         <div className="z-10 mx-auto inset-y-24 inset-x-96 absolute min-h-min py-2 px-2 text-start shadow-lg rounded-lg border border-gray-100 bg-white w-[30rem]">
           <ul>
-            {Suggestions.map((s,i)=><Link key={s} onMouseOver={()=>showMe.current = true} to={"/search/"+s} onClick={()=>setSearchQuery('')}><li className="py-2 px-3 shadow-sm hover:bg-gray-100"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
+            {Suggestions.map((s,i)=><Link key={s} onMouseOver={()=>showMe.current = true} to={"/search/"+s} onClick={()=>setSearchQuery('')}><li className="py-2 px-3 shadow-sm flex justify-between hover:bg-gray-100"> {s}<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 50 50">
 <path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
-</svg> {s}</li></Link>)}
+</svg></li></Link>)}
           </ul>
         </div> 
 }
