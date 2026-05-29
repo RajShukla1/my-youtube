@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import React, { useEffect, useState, useCallback } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { YOUTUBE_SEARCH_VIDEOS_API, GOOGLE_API_KEY } from 'utils/constants';
 import VideoCard from 'features/videos/VideoCard';
 import Shimmer from 'components/Shimmer';
@@ -7,10 +7,9 @@ import ButtonList from 'features/videos/ButtonList';
 
 const Search = () => {
     const [videos, setVideos] = useState([]);
-    let location = useLocation();
     let {query} = useParams();
 
-    const getVideos = async ()=>{
+    const getVideos = useCallback(async ()=>{
         let url = YOUTUBE_SEARCH_VIDEOS_API + query;
         // If it's a category filter, we must use the videos endpoint to get popular videos for that category
         if (query.startsWith('&videoCategoryId=')) {
@@ -25,11 +24,11 @@ const Search = () => {
             console.error(e);
             setVideos([]);
         }
-    }
+    }, [query]);
 
     useEffect(()=>{
         getVideos();
-    },[query])
+    },[query, getVideos])
 
   return (
     <>

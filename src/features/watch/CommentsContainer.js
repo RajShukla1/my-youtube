@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { USER_IMAGE, YOUTUBE_COMMENTS_API } from 'utils/constants';
 import Comment from './Comment';
 
@@ -22,7 +22,7 @@ const CommentsContainer = ({ id }) => {
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const getComments = async () => {
+    const getComments = useCallback(async () => {
         if (!id) return;
         setLoading(true);
         try {
@@ -34,11 +34,11 @@ const CommentsContainer = ({ id }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
 
     useEffect(() => {
         getComments();
-    }, [id]);
+    }, [getComments]);
 
     return (
         <div className='w-full mt-8'>

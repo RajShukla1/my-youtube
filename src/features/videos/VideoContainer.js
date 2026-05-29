@@ -39,7 +39,7 @@ const VideoContainer = ({ isSidebar = false }) => {
     if (videos.length === 0) {
       getVideos();
     }
-  },[]);
+  },[getVideos, videos.length]);
 
   useEffect(() => {
     const infiniteScroll = () => {

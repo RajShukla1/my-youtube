@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "store/appSlice";
-import { USER_IMAGE, YOUTUBE_SEARCH_API } from "utils/constants";
+import { USER_IMAGE } from "utils/constants";
 import { cacheResults } from "store/searchSlice";
 import { Link } from "react-router-dom";
 import useDebounce from "hooks/useDebounce";
