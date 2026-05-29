@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { OFFSET_LIVE_CHAT } from "./constants";
+import { OFFSET_LIVE_CHAT } from "utils/constants";
 
 const chatSlice = createSlice({
     name: "chat",
